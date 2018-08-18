@@ -96,7 +96,7 @@
 
               <v-flex xs12>
                 <v-text-field
-                  v-model="personData.remark"
+                  v-model="personData.experience"
                   label="Previous experiences if any"
                   hint="Describe briefly"
                 ></v-text-field>
@@ -115,7 +115,7 @@
           </v-container>
         </v-form>
       </v-card>
-      <v-btn color="primary" @click="e6 = 4">Continue</v-btn>
+      <v-btn color="primary" @click="registerUser">Continue</v-btn>
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
 
@@ -125,6 +125,7 @@
 
 <script>
 import firebase from 'firebase/app'
+const db = firebase.firestore()
 
 export default {
   data:()=>({
@@ -203,13 +204,30 @@ export default {
         var user = result.user;
         console.log('login success')
         console.log(user)
+        this.$store.commit('setCurrentUser', user)
         this.e6 = 3
       }).catch(function (error) {
         console.log(error.message)
         // User couldn't sign in (bad verification code?)
         // ...
       });
+    },
+
+    //register new user
+    registerUser(){
+      if(1){
+        db.collection("users").doc(this.$store.state.currentUser.uid).set(this.personData)
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
+
+
+      }
     }
+
   }
   
 }
