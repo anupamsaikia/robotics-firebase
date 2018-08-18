@@ -19,7 +19,7 @@
           </v-flex>
         </v-layout>
       </v-card>
-      <v-btn color="primary" @click="e6 = 2">Continue</v-btn>
+      <v-btn id="userPhoneSubmitBtn" color="primary">Continue</v-btn>
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
 
@@ -38,7 +38,7 @@
           </v-flex>
         </v-layout>
       </v-card>
-      <v-btn color="primary" @click="e6 = 3">Continue</v-btn>
+      <v-btn color="primary" @click="verifyNumber">Continue</v-btn>
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
 
@@ -50,7 +50,7 @@
           <v-container>
             <v-layout wrap>
 
-              <v-flex xs12>
+              <v-flex xs12 sm6>
                 <v-text-field
                   v-model="personData.name"
                   label="Name"
@@ -59,7 +59,7 @@
                   :rules="[rules.required]"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs12>
+              <v-flex xs12 sm6>
                 <v-text-field
                   v-model="personData.email"
                   label="Email"
@@ -124,6 +124,8 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
+
 export default {
   data:()=>({
     e6: 1,
@@ -147,6 +149,68 @@ export default {
 
     uploading: false,
   }),
+
+  mounted(){
+    firebase.auth().settings.appVerificationDisabledForTesting = true;
+
+    this.phoneNumber = "1234567890";
+    
+    console.log('entered mounted')
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('userPhoneSubmitBtn', {
+      'size': 'invisible',
+      'callback': (response)=> {
+        console.log(response)
+        // reCAPTCHA solved, allow signInWithPhoneNumber.
+        this.sendSMS();
+      }
+    });
+
+    recaptchaVerifier.render().then(function(widgetId) {
+      window.recaptchaWidgetId = widgetId;
+    });
+
+   
+  },
+
+  methods: {
+
+    //send otp
+    sendSMS(){
+      console.log('entered sendSMS')
+      var appVerifier = window.recaptchaVerifier;
+      firebase.auth().signInWithPhoneNumber('+91' + this.phoneNumber, appVerifier)
+        .then((confirmationResult)=> {
+          // SMS sent. Prompt user to type the code from the message, then sign the
+          // user in with confirmationResult.confirm(code).
+          console.log(confirmationResult)
+          this.e6 = 2;
+          window.confirmationResult = confirmationResult;
+        }).catch(function (error) {
+          // Error; SMS not sent
+
+          console.log(error.message)
+          window.recaptchaVerifier.render().then(function(widgetId) {
+            grecaptcha.reset(widgetId);
+          })
+          
+        });
+    },
+
+    //verify phone number
+    verifyNumber(){
+      window.confirmationResult.confirm(this.OTP).then((result) => {
+        // User signed in successfully.
+        var user = result.user;
+        console.log('login success')
+        console.log(user)
+        this.e6 = 3
+      }).catch(function (error) {
+        console.log(error.message)
+        // User couldn't sign in (bad verification code?)
+        // ...
+      });
+    }
+  }
   
 }
 </script>
