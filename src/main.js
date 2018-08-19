@@ -23,7 +23,9 @@ var config = {
   storageBucket: "robotics-club-cit.appspot.com",
 };
 firebase.initializeApp(config);
-
+firebase.auth().onAuthStateChanged(()=> {
+  store.dispatch('setUser')
+});
 
 Vue.config.productionTip = false
 
