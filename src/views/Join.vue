@@ -1,10 +1,46 @@
 <template>
-  <v-stepper v-model="e6" vertical>
+<div>
+  <v-layout justify-center class="my-3">
+    <v-flex xs6 sm6 offset-sm3>
+      <croppa
+        v-model="croppa" 
+        placeholder="click here to select image :)"
+        :zoom-speed="7"
+        :placeholder-font-size="10"
+        :width="150"
+        :height="150"
+        :quality="1"
+        prevent-white-space
+      >  
+      </croppa>
+    </v-flex>
+    <v-flex>
+      <v-btn @click="upload">Upload</v-btn>
+    </v-flex>
+  </v-layout>
+  
+
+
+
+  <h3 class="headline mt-3 px-3">Robotics Club Registration</h3>
+  <v-stepper v-if="false" v-model="e6" vertical class="my-3">
+
     <v-stepper-step :complete="e6 > 1" step="1">
-      Enter your phone number
+      Information
     </v-stepper-step>
 
     <v-stepper-content step="1">
+      <v-card class="mb-5" flat>
+        By joining Robotics club CIT Kokrajhar you agree the rules and regulations of the club
+      </v-card>
+      <v-btn color="primary" @click="e6 = 2">Start</v-btn>
+    </v-stepper-content>
+
+    <v-stepper-step :complete="e6 > 2" step="2">
+      Enter your phone number
+    </v-stepper-step>
+
+    <v-stepper-content step="2">
       <v-card class="mb-5" flat>
         <v-layout wrap>
           <v-flex xs12>
@@ -23,9 +59,9 @@
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
 
-    <v-stepper-step :complete="e6 > 2" step="2">Verify your number</v-stepper-step>
+    <v-stepper-step :complete="e6 > 3" step="3">Verify your number</v-stepper-step>
 
-    <v-stepper-content step="2">
+    <v-stepper-content step="3">
       <v-card class="mb-5" flat>
         <v-layout wrap>
           <v-flex xs12>
@@ -42,9 +78,9 @@
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
 
-    <v-stepper-step :complete="e6 > 3" step="3">Enter your details</v-stepper-step>
+    <v-stepper-step :complete="e6 > 4" step="4">Enter your details</v-stepper-step>
 
-    <v-stepper-content step="3">
+    <v-stepper-content step="4">
       <v-card flat class="mb-5">
         <v-form ref="form">
           <v-container>
@@ -120,15 +156,20 @@
     </v-stepper-content>
 
   </v-stepper>
-
+</div>
 </template>
 
 <script>
 import firebase from 'firebase/app'
 const db = firebase.firestore()
 
+const settings = {timestampsInSnapshots: true};
+db.settings(settings);
+
 export default {
   data:()=>({
+    myCroppa: {},
+
     e6: 1,
 
     phoneNumber : '',
@@ -148,7 +189,6 @@ export default {
     degBranchList: ['CSE', 'ECE', 'IE', 'IT', 'FET', 'CE', 'MCD'],
     dipBranchList: ['CO', 'CT', 'ET', 'CI', 'FPT', 'AMT'],
 
-    uploading: false,
   }),
 
   mounted(){
@@ -166,7 +206,7 @@ export default {
       }
     });
 
-    recaptchaVerifier.render().then(function(widgetId) {
+    window.recaptchaVerifier.render().then(function(widgetId) {
       window.recaptchaWidgetId = widgetId;
     });
 
@@ -174,6 +214,39 @@ export default {
   },
 
   methods: {
+    uploadCroppedImage() {
+      this.myCroppa.generateBlob((blob) => {
+         // write code to upload the cropped image file (a file is a blob)
+      }, 'image/jpeg', 0.8) // 80% compressed jpeg file
+    },
+
+    upload() {
+      if (!this.croppa.hasImage()) {
+        alert('no image to upload')
+        return
+      }
+
+      this.croppa.generateBlob((blob) => {
+        console.log(blob)
+        const ref = firebase.storage().ref();
+        const file = blob
+        const name = (+new Date()) + '-' + 'avatar-150x150';
+        const metadata = {
+          contentType: file.type
+        };
+        const task = ref.child(name).put(file, metadata);
+        task
+          .then(snapshot => snapshot.ref.getDownloadURL())
+          .then((url) => {
+            console.log(url);
+          })
+          .catch(console.error);
+        
+      },'image/jpeg', 0.8)
+    },
+
+
+
 
     //send otp
     sendSMS(){
@@ -184,7 +257,7 @@ export default {
           // SMS sent. Prompt user to type the code from the message, then sign the
           // user in with confirmationResult.confirm(code).
           console.log(confirmationResult)
-          this.e6 = 2;
+          this.e6 = 3;
           window.confirmationResult = confirmationResult;
         }).catch(function (error) {
           // Error; SMS not sent
@@ -205,9 +278,9 @@ export default {
         console.log('login success')
         console.log(user)
         this.$store.commit('setCurrentUser', user)
-        this.e6 = 3
+        this.e6 = 4
       }).catch(function (error) {
-        console.log(error.message)
+        console.error(error.message)
         // User couldn't sign in (bad verification code?)
         // ...
       });
@@ -221,11 +294,16 @@ export default {
             console.log("Document successfully written!");
         })
         .catch(function(error) {
-            console.error("Error writing document: ", error);
+            console.error("Error writing document: ", error.message);
         });
 
 
       }
+    },
+
+    test()
+    {
+      console.log('test')
     }
 
   }
