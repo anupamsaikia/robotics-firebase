@@ -1,34 +1,12 @@
 <template>
 <div>
-  <v-layout justify-center class="my-3">
-    <v-flex xs6 sm6 offset-sm3>
-      <croppa
-        v-model="croppa" 
-        placeholder="click here to select image :)"
-        :zoom-speed="7"
-        :placeholder-font-size="10"
-        :width="150"
-        :height="150"
-        :quality="1"
-        prevent-white-space
-      >  
-      </croppa>
-    </v-flex>
-    <v-flex>
-      <v-btn @click="upload">Upload</v-btn>
-    </v-flex>
-  </v-layout>
-  
-
-
-
-  <h3 class="headline mt-3 px-3">Robotics Club Registration</h3>
-  <v-stepper v-if="false" v-model="e6" vertical class="my-3">
+  <v-btn @click="test">signout</v-btn>
+  <h3 class="headline mt-3 px-3">Registration</h3>
+  <v-stepper v-model="e6" vertical class="my-3">
 
     <v-stepper-step :complete="e6 > 1" step="1">
       Information
     </v-stepper-step>
-
     <v-stepper-content step="1">
       <v-card class="mb-5" flat>
         By joining Robotics club CIT Kokrajhar you agree the rules and regulations of the club
@@ -39,7 +17,6 @@
     <v-stepper-step :complete="e6 > 2" step="2">
       Enter your phone number
     </v-stepper-step>
-
     <v-stepper-content step="2">
       <v-card class="mb-5" flat>
         <v-layout wrap>
@@ -60,7 +37,6 @@
     </v-stepper-content>
 
     <v-stepper-step :complete="e6 > 3" step="3">Verify your number</v-stepper-step>
-
     <v-stepper-content step="3">
       <v-card class="mb-5" flat>
         <v-layout wrap>
@@ -79,7 +55,6 @@
     </v-stepper-content>
 
     <v-stepper-step :complete="e6 > 4" step="4">Enter your details</v-stepper-step>
-
     <v-stepper-content step="4">
       <v-card flat class="mb-5">
         <v-form ref="form">
@@ -151,16 +126,46 @@
           </v-container>
         </v-form>
       </v-card>
-      <v-btn color="primary" @click="registerUser">Continue</v-btn>
+      <v-btn color="primary" @click="validateAndRegisterUser">Continue</v-btn>
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
+
+    <v-stepper-step :complete="e6 > 5" step="5">
+      Photo Upload
+    </v-stepper-step>
+
+    <v-stepper-content step="5">
+      <v-card class="mb-5" flat>
+        <v-layout justify-center class="my-3" row>
+          <v-flex xs12 sm6>
+            <croppa
+              v-model="myCroppa" 
+              placeholder="click here to select image :)"
+              :zoom-speed="8"
+              :placeholder-font-size="10"
+              :width="300"
+              :height="300"
+              :quality="1"
+              prevent-white-space
+            >  
+            </croppa>
+          </v-flex>
+        </v-layout>
+      </v-card>
+      <v-btn color="primary" @click="upload">Submit</v-btn>
+    </v-stepper-content>
+
+
 
   </v-stepper>
 </div>
 </template>
 
 <script>
+var md5 = require('md5')
 import firebase from 'firebase/app'
+
+
 const db = firebase.firestore()
 
 const settings = {timestampsInSnapshots: true};
@@ -192,9 +197,8 @@ export default {
   }),
 
   mounted(){
-    firebase.auth().settings.appVerificationDisabledForTesting = true;
-
-    this.phoneNumber = "1234567890";
+    //firebase.auth().settings.appVerificationDisabledForTesting = true;
+    //this.phoneNumber = "1234567890";
     
     console.log('entered mounted')
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('userPhoneSubmitBtn', {
@@ -214,43 +218,62 @@ export default {
   },
 
   methods: {
-    uploadCroppedImage() {
-      this.myCroppa.generateBlob((blob) => {
-         // write code to upload the cropped image file (a file is a blob)
-      }, 'image/jpeg', 0.8) // 80% compressed jpeg file
+
+    validateAndRegisterUser(){
+      if (this.$refs.form.validate()) {
+        this.registerUser()
+      }
+    },
+    //register new user
+    registerUser(){
+      if(this.$store.state.currentUser){        
+        db.collection("users").doc(this.$store.state.currentUser.uid).set(this.personData)
+        .then(() => {
+            this.e6 = 5
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error.message);
+        });
+      }
+      else{
+        console.log('Please login to register')
+      }
     },
 
     upload() {
-      if (!this.croppa.hasImage()) {
+      if (!this.myCroppa.hasImage()) {
         alert('no image to upload')
         return
       }
 
-      this.croppa.generateBlob((blob) => {
-        console.log(blob)
+      this.myCroppa.generateBlob((blob) => {
         const ref = firebase.storage().ref();
-        const file = blob
-        const name = (+new Date()) + '-' + 'avatar-150x150';
         const metadata = {
-          contentType: file.type
+          contentType: blob.type
         };
-        const task = ref.child(name).put(file, metadata);
-        task
-          .then(snapshot => snapshot.ref.getDownloadURL())
+        if(this.$store.state.currentUser){
+          const task = ref.child('avatars/'+ this.$store.state.currentUser.uid + '/avatar.jpg').put(blob, metadata);
+          
+          task.then(snapshot => snapshot.ref.getDownloadURL())
           .then((url) => {
-            console.log(url);
+            db.collection("users").doc(this.$store.state.currentUser.uid).update({'avatar': url})
+            .then(() => {
+              this.e6 = 6
+              this.$route.push('/')
+            })
+            .catch(function(error) {
+              console.error("Error writing document: ", error.message);
+            });
           })
           .catch(console.error);
+        }
         
       },'image/jpeg', 0.8)
     },
 
 
-
-
     //send otp
     sendSMS(){
-      console.log('entered sendSMS')
       var appVerifier = window.recaptchaVerifier;
       firebase.auth().signInWithPhoneNumber('+91' + this.phoneNumber, appVerifier)
         .then((confirmationResult)=> {
@@ -274,36 +297,22 @@ export default {
     verifyNumber(){
       window.confirmationResult.confirm(this.OTP).then((result) => {
         // User signed in successfully.
-        var user = result.user;
-        console.log('login success')
-        console.log(user)
-        this.$store.commit('setCurrentUser', user)
         this.e6 = 4
       }).catch(function (error) {
         console.error(error.message)
         // User couldn't sign in (bad verification code?)
-        // ...
       });
     },
 
-    //register new user
-    registerUser(){
-      if(1){
-        db.collection("users").doc(this.$store.state.currentUser.uid).set(this.personData)
-        .then(function() {
-            console.log("Document successfully written!");
-        })
-        .catch(function(error) {
-            console.error("Error writing document: ", error.message);
-        });
-
-
-      }
-    },
+    
 
     test()
     {
-      console.log('test')
+      firebase.auth().signOut().then(function() {
+        console.log('Signed Out');
+      }, function(error) {
+        console.error('Sign Out Error', error);
+      });
     }
 
   }
