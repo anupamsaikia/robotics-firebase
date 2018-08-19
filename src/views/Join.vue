@@ -32,7 +32,7 @@
           </v-flex>
         </v-layout>
       </v-card>
-      <v-btn id="userPhoneSubmitBtn" color="primary">Continue</v-btn>
+      <v-btn :loading="btnLoading" id="userPhoneSubmitBtn" color="primary" @click="btnLoading = true">Continue</v-btn>
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
 
@@ -50,7 +50,7 @@
           </v-flex>
         </v-layout>
       </v-card>
-      <v-btn color="primary" @click="verifyNumber">Continue</v-btn>
+      <v-btn :loading="btnLoading" color="primary" @click="verifyNumber">Continue</v-btn>
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
 
@@ -126,14 +126,13 @@
           </v-container>
         </v-form>
       </v-card>
-      <v-btn color="primary" @click="validateAndRegisterUser">Continue</v-btn>
+      <v-btn :loading="btnLoading" color="primary" @click="validateAndRegisterUser">Continue</v-btn>
       <v-btn flat>Cancel</v-btn>
     </v-stepper-content>
 
     <v-stepper-step :complete="e6 > 5" step="5">
       Photo Upload
     </v-stepper-step>
-
     <v-stepper-content step="5">
       <v-card class="mb-5" flat>
         <v-layout justify-center class="my-3" row>
@@ -141,8 +140,9 @@
             <croppa
               v-model="myCroppa" 
               placeholder="click here to select image :)"
+              :accept="'image/*'"
               :zoom-speed="8"
-              :placeholder-font-size="10"
+              :placeholder-font-size="12"
               :width="300"
               :height="300"
               :quality="1"
@@ -152,7 +152,7 @@
           </v-flex>
         </v-layout>
       </v-card>
-      <v-btn color="primary" @click="upload">Submit</v-btn>
+      <v-btn :loading="btnLoading" color="primary" @click="upload">Submit</v-btn>
     </v-stepper-content>
 
 
@@ -176,6 +176,7 @@ export default {
     myCroppa: {},
 
     e6: 1,
+    btnLoading: false,
 
     phoneNumber : '',
     OTP: '',
@@ -197,8 +198,8 @@ export default {
   }),
 
   mounted(){
-    //firebase.auth().settings.appVerificationDisabledForTesting = true;
-    //this.phoneNumber = "1234567890";
+    firebase.auth().settings.appVerificationDisabledForTesting = true;
+    this.phoneNumber = "1234567890";
     
     console.log('entered mounted')
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('userPhoneSubmitBtn', {
@@ -214,6 +215,10 @@ export default {
       window.recaptchaWidgetId = widgetId;
     });
 
+    if(this.$store.state.currentUser){
+      this.phoneNumber = this.$store.state.currentUser.phoneNumber.substring(3)
+    }
+
    
   },
 
@@ -221,21 +226,27 @@ export default {
 
     validateAndRegisterUser(){
       if (this.$refs.form.validate()) {
+        this.btnLoading = true
         this.registerUser()
       }
     },
-    //register new user
+
     registerUser(){
-      if(this.$store.state.currentUser){        
+      if(this.$store.state.currentUser){  
+        this.personData.phoneNumber = this.$store.state.currentUser.phoneNumber.substring(3)
         db.collection("users").doc(this.$store.state.currentUser.uid).set(this.personData)
         .then(() => {
-            this.e6 = 5
+          this.btnLoading = false
+          this.myCroppa.refresh()
+          this.e6 = 5
         })
-        .catch(function(error) {
-            console.error("Error writing document: ", error.message);
+        .catch((error) => {
+          this.btnLoading = false
+          console.error("Error writing document: ", error.message);
         });
       }
       else{
+        this.btnLoading = false
         console.log('Please login to register')
       }
     },
@@ -245,23 +256,27 @@ export default {
         alert('no image to upload')
         return
       }
-
+      
+      this.btnLoading = true
       this.myCroppa.generateBlob((blob) => {
         const ref = firebase.storage().ref();
         const metadata = {
           contentType: blob.type
         };
         if(this.$store.state.currentUser){
+          
           const task = ref.child('avatars/'+ this.$store.state.currentUser.uid + '/avatar.jpg').put(blob, metadata);
           
           task.then(snapshot => snapshot.ref.getDownloadURL())
           .then((url) => {
             db.collection("users").doc(this.$store.state.currentUser.uid).update({'avatar': url})
             .then(() => {
+              this.btnLoading = false
               this.e6 = 6
-              this.$route.push('/')
+              this.$router.push('/')
             })
-            .catch(function(error) {
+            .catch((error) => {
+              this.btnLoading = false
               console.error("Error writing document: ", error.message);
             });
           })
@@ -271,20 +286,33 @@ export default {
       },'image/jpeg', 0.8)
     },
 
+    getData(){
+      if(this.$store.state.currentUser){
+        db.collection("users").doc(this.$store.state.currentUser.uid).get()
+        .then((doc) => {
+          if(doc.exists){
+            this.personData = doc.data()
+          }
+        })
+        .catch(function(error) {
+
+        });
+      }
+    },
+
 
     //send otp
     sendSMS(){
       var appVerifier = window.recaptchaVerifier;
       firebase.auth().signInWithPhoneNumber('+91' + this.phoneNumber, appVerifier)
         .then((confirmationResult)=> {
-          // SMS sent. Prompt user to type the code from the message, then sign the
-          // user in with confirmationResult.confirm(code).
-          console.log(confirmationResult)
+          // SMS sent
+          this.btnLoading = false
           this.e6 = 3;
           window.confirmationResult = confirmationResult;
         }).catch(function (error) {
           // Error; SMS not sent
-
+          this.btnLoading = false
           console.log(error.message)
           window.recaptchaVerifier.render().then(function(widgetId) {
             grecaptcha.reset(widgetId);
@@ -292,19 +320,20 @@ export default {
           
         });
     },
-
     //verify phone number
     verifyNumber(){
+      this.btnLoading = true
       window.confirmationResult.confirm(this.OTP).then((result) => {
         // User signed in successfully.
+        this.getData()
+        this.btnLoading = false
         this.e6 = 4
       }).catch(function (error) {
+        this.btnLoading = false
         console.error(error.message)
         // User couldn't sign in (bad verification code?)
       });
     },
-
-    
 
     test()
     {
