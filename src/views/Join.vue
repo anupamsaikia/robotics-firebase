@@ -162,12 +162,8 @@
 </template>
 
 <script>
-var md5 = require('md5')
 import firebase from 'firebase/app'
-
-
 const db = firebase.firestore()
-
 const settings = {timestampsInSnapshots: true};
 db.settings(settings);
 
@@ -294,7 +290,7 @@ export default {
             this.personData = doc.data()
           }
         })
-        .catch(function(error) {
+        .catch(function() {
 
         });
       }
@@ -323,7 +319,7 @@ export default {
     //verify phone number
     verifyNumber(){
       this.btnLoading = true
-      window.confirmationResult.confirm(this.OTP).then((result) => {
+      window.confirmationResult.confirm(this.OTP).then(() => {
         // User signed in successfully.
         this.getData()
         this.btnLoading = false
