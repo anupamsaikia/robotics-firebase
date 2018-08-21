@@ -7,68 +7,86 @@
     <v-flex xs12 sm8 offset-sm2>
       <v-card>
         <div class="pa-3 text-xs-center">
-          <v-avatar size="150" >
+          <v-avatar size="300" >
             <img :src="personData.avatar" alt="Image">
           </v-avatar>
           <h3 class="headline mt-3">{{ personData.name }}</h3>
-          <p class="body-1 grey--text text--darken-1">{{ personData.role }}</p>
+          <h3 class="body-2 grey--text text--darken-1">{{ personData.role }}</h3>
+          <p class="body-1 grey--text text--darken-1">Robotics Club CIT Kokrajhar</p>
         </div>
         <v-divider></v-divider>
         <v-list two-line>
 
-          <v-list-tile v-if="personData.contact_info.phone" @click="()=>{}">
+          <v-list-tile v-if="personData.phone" @click="()=>{}">
             <v-list-tile-action>
               <v-icon color="green">phone</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title id="myPhone">{{ personData.contact_info.phone }}</v-list-tile-title>
+              <v-list-tile-title id="myPhone">{{ personData.phone }}</v-list-tile-title>
               <v-list-tile-sub-title>Mobile</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn icon ripple @click="copyToClipboard(personData.contact_info.phone)">
-                <v-icon>content_copy</v-icon>
-              </v-btn>
+              <v-tooltip top>
+                <v-btn slot="activator" icon ripple @click="copyToClipboard(personData.phone)">
+                  <v-icon>content_copy</v-icon>
+                </v-btn>
+                <span>Click to copy</span>
+              </v-tooltip>
             </v-list-tile-action>
           </v-list-tile>
-          <v-divider v-if="personData.contact_info.phone" inset></v-divider>
+          <v-divider v-if="personData.phone" inset></v-divider>
 
-          <v-list-tile v-if="personData.contact_info.email" @click="()=>{}">
+          <v-list-tile v-if="personData.email" @click="()=>{}">
             <v-list-tile-action>
               <v-icon color="red darken-1">mail</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title id="myEmail">{{ personData.contact_info.email }}</v-list-tile-title>
+              <v-list-tile-title id="myEmail">{{ personData.email }}</v-list-tile-title>
               <v-list-tile-sub-title>Personal</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-btn icon ripple @click="copyToClipboard(personData.contact_info.email)">
-                <v-icon>content_copy</v-icon>
-              </v-btn>
+              <v-tooltip top>
+                <v-btn slot="activator" icon ripple @click="copyToClipboard(personData.email)">
+                  <v-icon>content_copy</v-icon>
+                </v-btn>
+                <span>Click to copy</span>
+              </v-tooltip>
             </v-list-tile-action>
           </v-list-tile>
-          <v-divider v-if="personData.contact_info.email" inset></v-divider>
+          <v-divider v-if="personData.email" inset></v-divider>
 
           <v-list-tile v-if="personData.place" @click="()=>{}">
             <v-list-tile-action>
               <v-icon color="indigo">location_on</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>1400 Main Street</v-list-tile-title>
-              <v-list-tile-sub-title>Orlando, FL 79938</v-list-tile-sub-title>
+              <v-list-tile-title>{{personData.place}}</v-list-tile-title>
+              <v-list-tile-sub-title>Address</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-divider v-if="personData.place" inset></v-divider>
 
-          <v-list-tile v-if="personData.details.rollno" @click="()=>{}">
+          <v-list-tile v-if="personData.module && personData.branch" @click="()=>{}">
             <v-list-tile-action>
               <v-icon color="blue">school</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{personData.details.rollno}}</v-list-tile-title>
-              <v-list-tile-sub-title>{{personData.details.module + ' ' + personData.details.branch}}</v-list-tile-sub-title>
+              <v-list-tile-title>{{personData.module}}</v-list-tile-title>
+              <v-list-tile-sub-title>{{personData.branch}}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider v-if="personData.details.rollno" inset></v-divider>
+          <v-divider v-if="personData.module && personData.branch" inset></v-divider>
+
+          <v-list-tile v-if="personData.rollnum" @click="()=>{}">
+            <v-list-tile-action>
+              <v-icon color="pink">bookmark</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{personData.rollnum}}</v-list-tile-title>
+              <v-list-tile-sub-title>Roll Number</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider v-if="personData.rollnum" inset></v-divider>
 
         </v-list>
       </v-card>
@@ -80,6 +98,10 @@
 
 
 <script>
+import firebase from 'firebase/app'
+const db = firebase.firestore()
+const settings = {timestampsInSnapshots: true};
+db.settings(settings);
 
 export default {
   mounted(){
@@ -99,7 +121,7 @@ export default {
         .doc(this.$route.params.id)
         .get()
         .then((doc) => {
-          if(doc.exists()){
+          if(doc.exists){
             this.personData = doc.data();
           }
         })
