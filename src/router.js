@@ -29,6 +29,12 @@ export default new Router({
       component: () => import('./views/Members.vue')
     },
     {
+      path: '/members/:id',
+      name: 'singleMember',
+      component: () => import('./views/SingleMember'),
+      meta: { title: 'Members' }
+    },
+    {
       path: '/events',
       name: 'events',
       component: () => import('./views/Events.vue')
