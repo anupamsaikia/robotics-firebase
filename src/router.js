@@ -22,6 +22,21 @@ export default new Router({
       path: '/join',
       name: 'join',
       component: () => import('./views/Join.vue')
+    },
+    {
+      path: '/members',
+      name: 'members',
+      component: () => import('./views/Members.vue')
+    },
+    {
+      path: '/events',
+      name: 'events',
+      component: () => import('./views/Events.vue')
+    },
+    {
+      path: '/projects',
+      name: 'projects',
+      component: () => import('./views/Projects.vue')
     }
     
 
