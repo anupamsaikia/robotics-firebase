@@ -33,7 +33,7 @@
         </v-layout>
       </v-card>
       <v-btn :loading="btnLoading" id="userPhoneSubmitBtn" color="primary" @click="btnLoading = true">Continue</v-btn>
-      <v-btn flat>Cancel</v-btn>
+      <v-btn flat to="/">Cancel</v-btn>
     </v-stepper-content>
 
     <v-stepper-step :complete="e6 > 3" step="3">Verify your number</v-stepper-step>
@@ -51,7 +51,7 @@
         </v-layout>
       </v-card>
       <v-btn :loading="btnLoading" color="primary" @click="verifyNumber">Continue</v-btn>
-      <v-btn flat>Cancel</v-btn>
+      <v-btn flat to="/">Cancel</v-btn>
     </v-stepper-content>
 
     <v-stepper-step :complete="e6 > 4" step="4">Enter your details</v-stepper-step>
@@ -127,7 +127,7 @@
         </v-form>
       </v-card>
       <v-btn :loading="btnLoading" color="primary" @click="validateAndRegisterUser">Continue</v-btn>
-      <v-btn flat>Cancel</v-btn>
+      <v-btn flat to="/">Cancel</v-btn>
     </v-stepper-content>
 
     <v-stepper-step :complete="e6 > 5" step="5">

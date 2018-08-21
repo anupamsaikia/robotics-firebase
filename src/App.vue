@@ -60,14 +60,14 @@
           slot="activator"
           icon
         >
-          <v-icon>{{ ($store.state.authToken)?"person":"more_vert" }}</v-icon>
+          <v-icon>{{ ($store.state.currentUser)?"person":"more_vert" }}</v-icon>
         </v-btn>
 
         <v-list>
-          <v-list-tile v-if="!$store.state.authToken" @click="()=>{}">
+          <v-list-tile v-if="!$store.state.currentUser" @click="login">
             <v-list-tile-title>Admin Login</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile v-else @click="logout()">
+          <v-list-tile v-else @click="logout">
             <v-list-tile-title>Logout</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -87,6 +87,7 @@
 </template>
 
 <script>
+import firebase from 'firebase/app'
   //import Loader from '@/components/loader'
   //import AdminLogin from '@/components/adminLogin'
   //import { mapActions } from 'vuex'
@@ -96,7 +97,19 @@
       'my-loader': Loader,
       AdminLogin,
     }, */
-    
+    methods:{
+      login(){
+
+      },
+      logout(){
+        firebase.auth().signOut().then(function() {
+          console.log('Signed Out');
+        }, function(error) {
+          console.error('Sign Out Error', error);
+        });
+      },
+    },
+
     data: () => ({
       title: 'Robotics Club',
       drawer: null,

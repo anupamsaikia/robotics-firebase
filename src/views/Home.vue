@@ -53,7 +53,7 @@
 <div>
   <v-layout row class="my-3 white">
     <v-flex xs6 sm6 class="pa-3">
-      <a href="https://youtube.com" style="display:flex; justify-content:center;">
+      <a href="https://www.youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g" style="display:flex; justify-content:center;">
         <v-avatar>
           <img src="../assets/youtube.png" alt="Youtube">
         </v-avatar>
@@ -62,7 +62,7 @@
     </v-flex>
 
     <v-flex xs6 sm6 class="pa-3">
-      <a href="https://facebook.com" style="display:flex; justify-content:center;">
+      <a href=" https://facebook.com/themoderngeeks" style="display:flex; justify-content:center;">
         <v-avatar>
           <img src="../assets/facebook.png" alt="Facebook">
         </v-avatar>
