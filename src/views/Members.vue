@@ -39,7 +39,7 @@
 
 
 <script>
-import memberList from '@/components/memberList'
+import memberList from '@/components/MemberList'
 export default {
   components:{
     memberList,
