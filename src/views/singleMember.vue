@@ -77,16 +77,16 @@
           </v-list-tile>
           <v-divider v-if="personData.module && personData.branch" inset></v-divider>
 
-          <v-list-tile v-if="personData.rollnum" @click="()=>{}">
+          <v-list-tile v-if="personData.rollno" @click="()=>{}">
             <v-list-tile-action>
               <v-icon color="pink">bookmark</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{personData.rollnum}}</v-list-tile-title>
+              <v-list-tile-title>{{personData.rollno}}</v-list-tile-title>
               <v-list-tile-sub-title>Roll Number</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider v-if="personData.rollnum" inset></v-divider>
+          <v-divider v-if="personData.rollno" inset></v-divider>
 
         </v-list>
       </v-card>
