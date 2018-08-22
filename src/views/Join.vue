@@ -1,163 +1,169 @@
 <template>
 <div>
-  <v-btn @click="test">signout</v-btn>
-  <h3 class="headline mt-3 px-3">Registration</h3>
-  <v-stepper v-model="e6" vertical class="my-3">
 
-    <v-stepper-step :complete="e6 > 1" step="1">
-      Information
-    </v-stepper-step>
-    <v-stepper-content step="1">
-      <v-card class="mb-5" flat>
-        By joining Robotics club CIT Kokrajhar you agree the rules and regulations of the club
-      </v-card>
-      <v-btn color="primary" @click="e6 = 2">Start</v-btn>
-    </v-stepper-content>
+<!-- Error -->
+  <my-error v-if="error" :title="error.title" :description="error.description"></my-error>
 
-    <v-stepper-step :complete="e6 > 2" step="2">
-      Enter your phone number
-    </v-stepper-step>
-    <v-stepper-content step="2">
-      <v-card class="mb-5" flat>
-        <v-layout wrap>
-          <v-flex xs12>
-            <v-text-field
-              v-model="phoneNumber"
-              mask="##########"
-              label="Phone"
-              :counter="10"
-              :rules="[rules.required]"
-            ></v-text-field>
-            <p class="caption">An OTP will be sent to verify the number</p>
-          </v-flex>
-        </v-layout>
-      </v-card>
-      <v-btn :loading="btnLoading" id="userPhoneSubmitBtn" color="primary" @click="btnLoading = true">Continue</v-btn>
-      <v-btn flat to="/">Cancel</v-btn>
-    </v-stepper-content>
+  <div v-else>
+    <h3 class="headline mt-3 px-3">Registration</h3>
+    <v-stepper v-model="e6" vertical class="my-3">
 
-    <v-stepper-step :complete="e6 > 3" step="3">Verify your number</v-stepper-step>
-    <v-stepper-content step="3">
-      <v-card class="mb-5" flat>
-        <v-layout wrap>
-          <v-flex xs12>
-            <p class="body-2">OTP has been sent</p>
-            <v-text-field
-              v-model="OTP"
-              label="One time password"
-            ></v-text-field>
-            <p class="caption">If you didn't receive the OTP, Please restart from beginning</p>
-          </v-flex>
-        </v-layout>
-      </v-card>
-      <v-btn :loading="btnLoading" color="primary" @click="verifyNumber">Continue</v-btn>
-      <v-btn flat to="/">Cancel</v-btn>
-    </v-stepper-content>
+      <v-stepper-step :complete="e6 > 1" step="1">
+        Information
+      </v-stepper-step>
+      <v-stepper-content step="1">
+        <v-card class="mb-5" flat>
+          By joining Robotics club CIT Kokrajhar you agree the rules and regulations of the club
+        </v-card>
+        <v-btn color="primary" @click="e6 = 2">Start</v-btn>
+      </v-stepper-content>
 
-    <v-stepper-step :complete="e6 > 4" step="4">Enter your details</v-stepper-step>
-    <v-stepper-content step="4">
-      <v-card flat class="mb-5">
-        <v-form ref="form">
-          <v-container>
-            <v-layout wrap>
+      <v-stepper-step :complete="e6 > 2" step="2">
+        Enter your phone number
+      </v-stepper-step>
+      <v-stepper-content step="2">
+        <v-card class="mb-5" flat>
+          <v-layout wrap>
+            <v-flex xs12>
+              <v-text-field
+                v-model="phoneNumber"
+                mask="##########"
+                label="Phone"
+                :counter="10"
+                :rules="[rules.required]"
+              ></v-text-field>
+              <p class="caption">An OTP will be sent to verify the number</p>
+            </v-flex>
+          </v-layout>
+        </v-card>
+        <v-btn :loading="btnLoading" id="userPhoneSubmitBtn" color="primary">Continue</v-btn>
+        <v-btn flat to="/">Cancel</v-btn>
+      </v-stepper-content>
 
-              <v-flex xs12 sm6>
-                <v-text-field
-                  v-model="personData.name"
-                  label="Name"
-                  hint="Enter your full name"
-                  :counter="30"
-                  :rules="[rules.required]"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-text-field
-                  v-model="personData.email"
-                  label="Email"
-                  hint="Enter your valid email address"
-                  :counter="100"
-                  :rules="[rules.required, rules.email]"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-select
-                  :items="moduleList"
-                  label="Module"
-                  v-model="personData.module"
-                  :rules="[rules.required]"
-                ></v-select>
-              </v-flex>
-              <v-flex xs12 sm6>
-                <v-select
-                  v-model="personData.branch"
-                  :items="(personData.module == 'Diploma')?dipBranchList:degBranchList"
-                  label="Branch"
-                  :rules="[rules.required]"
-                  dense
-                ></v-select>
-              </v-flex>
+      <v-stepper-step :complete="e6 > 3" step="3">Verify your number</v-stepper-step>
+      <v-stepper-content step="3">
+        <v-card class="mb-5" flat>
+          <v-layout wrap>
+            <v-flex xs12>
+              <p class="body-2">OTP has been sent</p>
+              <v-text-field
+                v-model="OTP"
+                label="One time password"
+              ></v-text-field>
+              <p class="caption">If you didn't receive the OTP, Please restart from beginning</p>
+            </v-flex>
+          </v-layout>
+        </v-card>
+        <v-btn :loading="btnLoading" color="primary" @click="verifyNumber">Continue</v-btn>
+        <v-btn flat to="/">Cancel</v-btn>
+      </v-stepper-content>
 
-              <v-flex xs12>
-                <v-text-field
-                  v-model="personData.rollno"
-                  label="Roll no."
-                  :rules="[rules.required]"
-                ></v-text-field>
-              </v-flex>
+      <v-stepper-step :complete="e6 > 4" step="4">Enter your details</v-stepper-step>
+      <v-stepper-content step="4">
+        <v-card flat class="mb-5">
+          <v-form ref="form">
+            <v-container>
+              <v-layout wrap>
 
-              <v-flex xs12>
-                <v-text-field
-                  v-model="personData.experience"
-                  label="Previous experiences if any"
-                  hint="Describe briefly"
-                ></v-text-field>
-              </v-flex>
+                <v-flex xs12 sm6>
+                  <v-text-field
+                    v-model="personData.name"
+                    label="Name"
+                    hint="Enter your full name"
+                    :counter="30"
+                    :rules="[rules.required]"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <v-text-field
+                    v-model="personData.email"
+                    label="Email"
+                    hint="Enter your valid email address"
+                    :counter="100"
+                    :rules="[rules.required, rules.email]"
+                  ></v-text-field>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <v-select
+                    :items="moduleList"
+                    label="Module"
+                    v-model="personData.module"
+                    :rules="[rules.required]"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs12 sm6>
+                  <v-select
+                    v-model="personData.branch"
+                    :items="(personData.module == 'Diploma')?dipBranchList:degBranchList"
+                    label="Branch"
+                    :rules="[rules.required]"
+                    dense
+                  ></v-select>
+                </v-flex>
 
-              <v-flex xs12>
-                <v-text-field
-                  v-model="personData.whyjoin"
-                  label="Why do you want to join?"
-                  hint="Describe briefly"
-                ></v-text-field>
-              </v-flex>
-              
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="personData.rollno"
+                    label="Roll no."
+                    :rules="[rules.required]"
+                  ></v-text-field>
+                </v-flex>
 
-            </v-layout>
-          </v-container>
-        </v-form>
-      </v-card>
-      <v-btn :loading="btnLoading" color="primary" @click="validateAndRegisterUser">Continue</v-btn>
-      <v-btn flat to="/">Cancel</v-btn>
-    </v-stepper-content>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="personData.experience"
+                    label="Previous experiences if any"
+                    hint="Describe briefly"
+                  ></v-text-field>
+                </v-flex>
 
-    <v-stepper-step :complete="e6 > 5" step="5">
-      Photo Upload
-    </v-stepper-step>
-    <v-stepper-content step="5">
-      <v-card class="mb-5" flat>
-        <v-layout justify-center class="my-3" row>
-          <v-flex xs12 sm6>
-            <croppa
-              v-model="myCroppa" 
-              placeholder="click here to select image :)"
-              :accept="'image/*'"
-              :zoom-speed="8"
-              :placeholder-font-size="12"
-              :width="300"
-              :height="300"
-              :quality="1"
-              prevent-white-space
-            >  
-            </croppa>
-          </v-flex>
-        </v-layout>
-      </v-card>
-      <v-btn :loading="btnLoading" color="primary" @click="upload">Submit</v-btn>
-    </v-stepper-content>
+                <v-flex xs12>
+                  <v-text-field
+                    v-model="personData.whyjoin"
+                    label="Why do you want to join?"
+                    hint="Describe briefly"
+                  ></v-text-field>
+                </v-flex>
+                
+
+              </v-layout>
+            </v-container>
+          </v-form>
+        </v-card>
+        <v-btn :loading="btnLoading" color="primary" @click="validateAndRegisterUser">Continue</v-btn>
+        <v-btn flat to="/">Cancel</v-btn>
+      </v-stepper-content>
+
+      <v-stepper-step :complete="e6 > 5" step="5">
+        Photo Upload
+      </v-stepper-step>
+      <v-stepper-content step="5">
+        <v-card class="mb-5" flat>
+          <v-layout justify-center class="my-3" row>
+            <v-flex xs12 sm6>
+              <croppa
+                v-model="myCroppa" 
+                placeholder="click here to select image :)"
+                :accept="'image/*'"
+                :zoom-speed="8"
+                :placeholder-font-size="12"
+                :width="300"
+                :height="300"
+                :quality="1"
+                prevent-white-space
+              >  
+              </croppa>
+            </v-flex>
+          </v-layout>
+        </v-card>
+        <v-btn :loading="btnLoading" color="primary" @click="upload">Submit</v-btn>
+      </v-stepper-content>
 
 
 
-  </v-stepper>
+    </v-stepper>
+  </div>
+
 </div>
 </template>
 
@@ -169,6 +175,7 @@ db.settings(settings);
 
 export default {
   data:()=>({
+    error: null,
     myCroppa: {},
 
     e6: 1,
@@ -194,14 +201,12 @@ export default {
   }),
 
   mounted(){
-    firebase.auth().settings.appVerificationDisabledForTesting = true;
-    this.phoneNumber = "1234567890";
-    
-    console.log('entered mounted')
-    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('userPhoneSubmitBtn', {
+    //firebase.auth().settings.appVerificationDisabledForTesting = true;
+    //this.phoneNumber = "1234567890";
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('userPhoneSubmitBtn', {
       'size': 'invisible',
       'callback': (response)=> {
-        console.log(response)
+        //console.log(response)
         // reCAPTCHA solved, allow signInWithPhoneNumber.
         this.sendSMS();
       }
@@ -238,7 +243,9 @@ export default {
         })
         .catch((error) => {
           this.btnLoading = false
-          console.error("Error writing document: ", error.message);
+          this.error.title = "Error connecting to database"
+          this.error.description = error.message
+          //console.error("Error writing document: ", error.message);
         });
       }
       else{
@@ -269,10 +276,13 @@ export default {
             .then(() => {
               this.btnLoading = false
               this.e6 = 6
+              alert("Successfully Registered ... See you soon :) ")
               this.$router.push('/')
             })
             .catch((error) => {
               this.btnLoading = false
+              this.error.title = "Error uploading photo"
+              this.error.description = error.message
               console.error("Error writing document: ", error.message);
             });
           })
@@ -306,7 +316,10 @@ export default {
           this.btnLoading = false
           this.e6 = 3;
           window.confirmationResult = confirmationResult;
-        }).catch(function (error) {
+        }).catch( (error) => {
+          this.btnLoading = false
+          this.error.title = "Unable to send OTP"
+          this.error.description = error.message
           // Error; SMS not sent
           this.btnLoading = false
           console.log(error.message)
@@ -324,21 +337,14 @@ export default {
         this.getData()
         this.btnLoading = false
         this.e6 = 4
-      }).catch(function (error) {
+      }).catch( (error) => {
         this.btnLoading = false
         console.error(error.message)
+        alert("OTP is not correct !! Please Enter correct OTP or start the process from beginning")
         // User couldn't sign in (bad verification code?)
       });
     },
 
-    test()
-    {
-      firebase.auth().signOut().then(function() {
-        console.log('Signed Out');
-      }, function(error) {
-        console.error('Sign Out Error', error);
-      });
-    }
 
   }
   
