@@ -4,6 +4,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './registerServiceWorker'
+import myError from './components/Error'
+
 
 //croppa
 import Croppa from 'vue-croppa'
@@ -27,6 +29,9 @@ firebase.auth().onAuthStateChanged(()=> {
   store.dispatch('setUser')
 });
 
+
+//global components 
+Vue.component('my-error', myError)
 Vue.config.productionTip = false
 
 new Vue({
