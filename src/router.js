@@ -43,6 +43,11 @@ export default new Router({
       path: '/projects',
       name: 'projects',
       component: () => import('./views/Projects.vue')
+    },
+    {
+      path: '/gallery',
+      name: 'gallery',
+      component: () => import('./views/Gallery.vue')
     }
     
 
