@@ -22,8 +22,8 @@
               <v-icon color="green">phone</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title id="myPhone">{{ personData.phone }}</v-list-tile-title>
               <v-list-tile-sub-title>Mobile</v-list-tile-sub-title>
+              <v-list-tile-title>{{ personData.phone }}</v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <v-tooltip top>
@@ -41,8 +41,8 @@
               <v-icon color="red darken-1">mail</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title id="myEmail">{{ personData.email }}</v-list-tile-title>
-              <v-list-tile-sub-title>Personal</v-list-tile-sub-title>
+              <v-list-tile-sub-title>Email</v-list-tile-sub-title>
+              <v-list-tile-title>{{ personData.email }}</v-list-tile-title>
             </v-list-tile-content>
             <v-list-tile-action>
               <v-tooltip top>
@@ -60,8 +60,8 @@
               <v-icon color="indigo">location_on</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{personData.place}}</v-list-tile-title>
               <v-list-tile-sub-title>Address</v-list-tile-sub-title>
+              <v-list-tile-title>{{personData.place}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-divider v-if="personData.place" inset></v-divider>
@@ -82,8 +82,8 @@
               <v-icon color="pink">bookmark</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{personData.rollno}}</v-list-tile-title>
               <v-list-tile-sub-title>Roll Number</v-list-tile-sub-title>
+              <v-list-tile-title>{{personData.rollno}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-divider v-if="personData.rollno" inset></v-divider>
