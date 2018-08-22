@@ -89,7 +89,7 @@ export default {
             console.log("Error getting documents: ", error);
         });
       } else {
-        var level = (this.mtype == 'faculty')?4:3;
+        var level = (this.mtype == 'faculty')?3:4;
         db.collection("members")
         .where("visibility", "==", "public")
         .where("level","==",level)
