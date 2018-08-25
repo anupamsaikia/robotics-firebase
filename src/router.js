@@ -41,7 +41,7 @@ export default new Router({
     },
     {
       path: '/events/:id',
-      name: 'singleEvents',
+      name: 'singleEvent',
       component: () => import('./views/SingleEvent.vue')
     },
     {
@@ -50,16 +50,21 @@ export default new Router({
       component: () => import('./views/Projects.vue')
     },
     {
+      path: '/projects/:id',
+      name: 'singleProject',
+      component: () => import('./views/SingleProject.vue')
+    },
+    {
       path: '/gallery',
       name: 'gallery',
       component: () => import('./views/Gallery.vue')
     },
     
-    /* {
+    {
       path: '/xyz',
       name: 'xyz',
-      component: () => import('./views/Admin.vue')
-    } */
+      component: () => import('./views/AdminPhotoUploader.vue')
+    } 
     
 
   ]
