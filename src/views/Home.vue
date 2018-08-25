@@ -1,19 +1,30 @@
 <template>
-<div>
+<div class="main">
 
-<div class="asdf" style="background-size: cover;">
-  <v-layout class="pa-2">
+  <v-layout class="pa-2 ">
     <div width="50"><img src="../assets/club-logo.png" alt="Logo" height="80"></div>
     <v-spacer></v-spacer>
     <div width="50"><img src="../assets/cit-logo.png" alt="Logo" height="80"></div>
   </v-layout>
+
+  <v-carousel
+    hide-delimiters
+    hide-controls
+  >
+    <v-carousel-item
+      v-for="(item,i) in images"
+      :key="i"
+      :src="item.src"
+      reverse-transition="fade"
+      transition="fade"
+    ></v-carousel-item>
+  </v-carousel>
+
+
+
   <div class="container">
     <div class="text"></div>
   </div>
-</div>
-
-
-
 
 
   
@@ -27,7 +38,6 @@
 </template>
 
 <script>
-
 export default {
   mounted(){
     var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
@@ -86,13 +96,10 @@ export default {
         } }]);return TextScramble;}();
 
     var phrases = [
-    'Neo,',
-    'sooner or later',
-    'you\'re going to realize',
-    'just as I did',
-    'that there\'s a difference',
-    'between knowing the path',
-    'and walking the path'];
+    'Welcome to Robotics Club CIT Kokrajhar',
+    'Do you want to build your own robot?',
+    'Start from the basic & explore beyond your imagination'
+    ];
 
 
     var el = document.querySelector('.text');
@@ -135,24 +142,37 @@ export default {
 <style scoped>
 @import 'https://fonts.googleapis.com/css?family=Roboto+Mono:400';
 
-.asdf{
-  background-image: url('http://singtel.co.jp/wp/wp-content/uploads/20180202.jpg');
-}
 .container {
+  position: relative;
+  top: -350px;
   font-family: 'Roboto Mono', monospace;
-  height: 78vh;
-  width: 100%;
   align-items: center;
   display: flex;
   flex-direction: column;
 }
 .text { 
   font-weight: 400;
-  font-size: 35px;
+  font-size: 28px;
   color: #ffffff;
+  text-shadow: 3px 3px 8px rgb(0, 0, 0);
 }
 .dud {
   color: #757575;
+}
+
+.fade-enter-active,
+.fade-leave-active,
+.fade-leave-to {
+	transition: 0.3s ease-out;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.fade-enter,
+.fade-leave,
+.fade-leave-to {
+	opacity: 0;
 }
 
 
