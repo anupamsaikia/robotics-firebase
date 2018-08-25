@@ -13,7 +13,8 @@
       </v-stepper-step>
       <v-stepper-content step="1">
         <v-card class="mb-5" flat>
-          By joining Robotics club CIT Kokrajhar you agree the rules and regulations of the club
+          Last date of joining is <b>5 September, 2018</b><br>
+          You have to pay <b>Rs.150</b> as Membership fee 
         </v-card>
         <v-btn color="primary" @click="e6 = 2">Start</v-btn>
       </v-stepper-content>
