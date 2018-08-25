@@ -1,103 +1,161 @@
 <template>
 <div>
 
-<v-layout class="pa-2 white">
-  <div width="50"><img src="../assets/club-logo.png" alt="Logo" height="80"></div>
-  <v-spacer>
-    <div v-if="$vuetify.breakpoint.smAndUp" class="py-4 white" style="text-align:center">
-      <span class="headline" style="color:#ffa100;">Welcome to </span>
-      <span class=" display-1 blue--text">Robotics Club, </span>
-      <span class="headline grey--text text--darken-2">CIT Kokrajhar</span>
-    </div>
-  </v-spacer>
-  <div width="50"><img src="../assets/cit-logo.png" alt="Logo" height="80"></div>
-</v-layout>
-<div v-if="$vuetify.breakpoint.xsOnly" class="py-4 white" style="text-align:center">
-  <span class="headline" style="color:#ffa100;">Welcome to </span>
-  <span class=" display-1 blue--text">Robotics Club, </span>
-  <span class="headline grey--text text--darken-2">CIT Kokrajhar</span>
-</div>
-
-
-
-<v-btn
-  class="mx-0"
-  color="primary"
-  large
-  to="/join"
->
-  Join Club
-</v-btn>
-
-<div>
-  <v-layout row class="my-3 white">
-    <v-flex xs6 sm6 class="pa-3">
-      <a href="https://www.youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g" style="display:flex; justify-content:center;">
-        <v-avatar>
-          <img src="../assets/youtube.png" alt="Youtube">
-        </v-avatar>
-        <span class="pa-3 subheading">Youtube</span>
-      </a>
-    </v-flex>
-
-    <v-flex xs6 sm6 class="pa-3">
-      <a href=" https://facebook.com/themoderngeeks" style="display:flex; justify-content:center;">
-        <v-avatar>
-          <img src="../assets/facebook.png" alt="Facebook">
-        </v-avatar>
-        <span class="pa-3 subheading">Facebook</span>
-      </a>
-    </v-flex>
-
+<div class="asdf" style="background-size: cover;">
+  <v-layout class="pa-2">
+    <div width="50"><img src="../assets/club-logo.png" alt="Logo" height="80"></div>
+    <v-spacer></v-spacer>
+    <div width="50"><img src="../assets/cit-logo.png" alt="Logo" height="80"></div>
   </v-layout>
+  <div class="container">
+    <div class="text"></div>
+  </div>
 </div>
+
+
+
+
+
+  
+
+
+
+
 
 
 </div>
 </template>
 
 <script>
+
 export default {
+  mounted(){
+    var _createClass = function () {function defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}return function (Constructor, protoProps, staticProps) {if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;};}();function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}
 
-  computed: {
-    imageHeight () {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs': return '500px'
-        case 'sm': return '400px'
-        case 'md': return '500px'
-        case 'lg': return '500px'
-        case 'xl': return '800px'
-      }
-    },
+    var TextScramble = function () {
+      function TextScramble(el) {_classCallCheck(this, TextScramble);
+        this.el = el;
+        this.chars = '!<>-_\\/[]{}—=+*^?#________';
+        this.update = this.update.bind(this);
+      }_createClass(TextScramble, [{ key: 'setText', value: function setText(
+        newText) {var _this = this;
+          var oldText = this.el.innerText;
+          var length = Math.max(oldText.length, newText.length);
+          var promise = new Promise(function (resolve) {return _this.resolve = resolve;});
+          this.queue = [];
+          for (var i = 0; i < length; i++) {
+            var from = oldText[i] || '';
+            var to = newText[i] || '';
+            var start = Math.floor(Math.random() * 40);
+            var end = start + Math.floor(Math.random() * 40);
+            this.queue.push({ from: from, to: to, start: start, end: end });
+          }
+          cancelAnimationFrame(this.frameRequest);
+          this.frame = 0;
+          this.update();
+          return promise;
+        } }, { key: 'update', value: function update()
+        {
+          var output = '';
+          var complete = 0;
+          for (var i = 0, n = this.queue.length; i < n; i++) {var _queue$i =
+            this.queue[i],from = _queue$i.from,to = _queue$i.to,start = _queue$i.start,end = _queue$i.end,char = _queue$i.char;
+            if (this.frame >= end) {
+              complete++;
+              output += to;
+            } else if (this.frame >= start) {
+              if (!char || Math.random() < 0.28) {
+                char = this.randomChar();
+                this.queue[i].char = char;
+              }
+              output += '<span class="dud">' + char + '</span>';
+            } else {
+              output += from;
+            }
+          }
+          this.el.innerHTML = output;
+          if (complete === this.queue.length) {
+            this.resolve();
+          } else {
+            this.frameRequest = requestAnimationFrame(this.update);
+            this.frame++;
+          }
+        } }, { key: 'randomChar', value: function randomChar()
+        {
+          return this.chars[Math.floor(Math.random() * this.chars.length)];
+        } }]);return TextScramble;}();
 
-  
+    var phrases = [
+    'Neo,',
+    'sooner or later',
+    'you\'re going to realize',
+    'just as I did',
+    'that there\'s a difference',
+    'between knowing the path',
+    'and walking the path'];
+
+
+    var el = document.querySelector('.text');
+    var fx = new TextScramble(el);
+
+    var counter = 0;
+    var next = function next() {
+      fx.setText(phrases[counter]).then(function () {
+        setTimeout(next, 2000);
+      });
+      counter = (counter + 1) % phrases.length;
+    };
+
+    next();
+
   },
-
   
+
+  data(){
+    return {
+      images: [
+        {
+          src: 'http://singtel.co.jp/wp/wp-content/uploads/20180202.jpg'
+        },
+        {
+          src: 'https://fos.cmb.ac.lk/esl/wp-content/uploads/2013/05/DSC_1145.jpg'
+        },
+        {
+          src: 'http://www.osckilabs.com/assets/envision/arduino.jpg'
+        },
+        {
+          src: 'https://i.imgur.com/tnKlDYQ.jpg'
+        }
+      ]
+    }
+  }
 }
 </script>
 
 <style scoped>
-  .anupam{
-    background-color: white;
-    background-image: url('../assets/bg.png');
-    background-size: contain;
-    background-position-x: right;
-    background-position-y: top;
-  }
+@import 'https://fonts.googleapis.com/css?family=Roboto+Mono:400';
 
-  .anupam2{
-    background-color: white;
-    background-image: url('../assets/bg.png');
-    background-size: 250%;
-    background-position-y: top;
-    background-position-x: left;
-  
-  }
+.asdf{
+  background-image: url('http://singtel.co.jp/wp/wp-content/uploads/20180202.jpg');
+}
+.container {
+  font-family: 'Roboto Mono', monospace;
+  height: 78vh;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.text { 
+  font-weight: 400;
+  font-size: 35px;
+  color: #ffffff;
+}
+.dud {
+  color: #757575;
+}
 
-  .at {
-   background-color: white!important;
-   opacity: 0.65;
- }
 
 </style>
+
+
