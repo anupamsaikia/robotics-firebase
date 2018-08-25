@@ -1,54 +1,33 @@
 <template>
 <div>
-<v-jumbotron v-if="$vuetify.breakpoint.mdAndUp" class="anupam">
-  <v-container fill-height>
-    <v-layout align-center>
-      <v-flex>
-        <h3 class="headline" style="color:#ffa100">Welcome to</h3>
-        <h3 class="display-1 blue--text">Robotics Club</h3>
-        <h3 class="headline grey--text text--darken-2">Central Institute of Technology Kokrajhar</h3>
 
-        <span class="subheading"></span>
+<v-layout class="pa-2 white">
+  <div width="50"><img src="../assets/club-logo.png" alt="Logo" height="80"></div>
+  <v-spacer>
+    <div v-if="$vuetify.breakpoint.smAndUp" class="py-4 white" style="text-align:center">
+      <span class="headline" style="color:#ffa100;">Welcome to </span>
+      <span class=" display-1 blue--text">Robotics Club, </span>
+      <span class="headline grey--text text--darken-2">CIT Kokrajhar</span>
+    </div>
+  </v-spacer>
+  <div width="50"><img src="../assets/cit-logo.png" alt="Logo" height="80"></div>
+</v-layout>
+<div v-if="$vuetify.breakpoint.xsOnly" class="py-4 white" style="text-align:center">
+  <span class="headline" style="color:#ffa100;">Welcome to </span>
+  <span class=" display-1 blue--text">Robotics Club, </span>
+  <span class="headline grey--text text--darken-2">CIT Kokrajhar</span>
+</div>
 
-        <div class="body-2 mt-5">If you are enthusiastic about robotics, fill the form to join the club</div>
-        <v-btn
-          class="mx-0"
-          color="primary"
-          large
-          to="/join"
-        >
-          Join Club
-        </v-btn>
-      </v-flex>
-    </v-layout>
-  </v-container>
-</v-jumbotron>
 
-<v-jumbotron v-if="$vuetify.breakpoint.smAndDown" class="anupam2">
-  <v-container fill-height>
-    <v-layout align-center>
-      <v-flex>
-        <h3 class=" headline" style="color:#ffa100">Welcome to</h3>
-        <h3 class=" display-1 blue--text">Robotics Club</h3>
-        <br>
-        <span class=" at headline grey--text text--darken-3">Central Institute of Technology Kokrajhar</span>
 
-        <span class="subheading"></span>
-
-        <div class=" at white body-2 mt-5">If you are enthusiastic about robotics, fill the form to join the club</div>
-        <v-btn
-          class="mx-0"
-          color="primary"
-          large
-          to="/join"
-        >
-          Join Club
-        </v-btn>
-      </v-flex>
-    </v-layout>
-  </v-container>
-</v-jumbotron>
-
+<v-btn
+  class="mx-0"
+  color="primary"
+  large
+  to="/join"
+>
+  Join Club
+</v-btn>
 
 <div>
   <v-layout row class="my-3 white">
