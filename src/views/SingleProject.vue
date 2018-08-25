@@ -11,7 +11,7 @@
           <v-list>
             <v-list-tile v-if="projectData.status">
               <v-list-tile-action>
-                <v-icon color="indigo">place</v-icon>
+                <v-icon color="indigo">check_circle</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>Status</v-list-tile-title>
