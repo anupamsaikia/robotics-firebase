@@ -4,8 +4,8 @@
   <div class="pa-3" v-if="items">
     <vue-picture-swipe :items="items"></vue-picture-swipe>
   </div>
-  <div v-else>
-    <p class="pa-5">No photo available right now</p>
+  <div v-if="msg">
+    <p class="pa-5">{{msg}}</p>
   </div>
 </div>
 </template>
@@ -31,6 +31,7 @@ export default {
   data(){
     return {
       items: [],
+      msg : null
 
     }
   },
@@ -43,7 +44,10 @@ export default {
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             this.items.push(doc.data())
-          });         
+          });
+          if(this.items.length==0){
+            this.msg = 'No photo available right now..'
+          }
         })
         .catch((error) => {
             console.log("Error getting photos: ", error);
