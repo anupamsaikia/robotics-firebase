@@ -42,7 +42,6 @@
     </v-navigation-drawer>
     <v-toolbar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
-      color="white"
       app
       fixed
       :dense="$vuetify.breakpoint.mdAndDown"
@@ -57,6 +56,7 @@
         nudge-left="40"
       >
         <v-btn
+          v-if="$store.state.currentUser"
           slot="activator"
           icon
         >
