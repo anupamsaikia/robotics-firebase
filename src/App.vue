@@ -80,7 +80,7 @@
     </v-dialog> -->
 
 
-    <v-content>
+    <v-content class="main">
       <router-view/>
     </v-content>
   </v-app>
@@ -132,6 +132,12 @@ import firebase from 'firebase/app'
 </script>
 
 <style>
+.main{
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle, rgb(170, 170, 170) 0.001px, rgb(245, 245, 245) 1px);
+  background-repeat: repeat;
+}
+
 a{
   text-decoration: none;
   color: inherit;
