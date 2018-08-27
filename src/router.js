@@ -60,11 +60,11 @@ export default new Router({
       component: () => import('./views/Gallery.vue')
     },
     
-    {
+  /*   {
       path: '/xyz',
       name: 'xyz',
       component: () => import('./views/AdminPhotoUploader.vue')
-    } 
+    }  */
     
 
   ]
