@@ -166,8 +166,9 @@ import firebase from 'firebase/app'
         { icon: 'event', text: 'Events', target: 'events' },
         { icon: 'android', text: 'Projects', target: 'projects' },
         { icon: 'group', text: 'Members', target: 'members' },
-        { icon: 'book', text: 'Tutorials', target: 'tutorials' },
+        // { icon: 'book', text: 'Tutorials', target: 'tutorials' },
         { icon: 'photo_library', text: 'Gallery', target: 'gallery' },
+        { icon: 'feedback', text: 'Feedback', target: 'feedback' },
       ],
 
       //adminLoginDialog: false,

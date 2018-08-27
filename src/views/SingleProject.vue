@@ -20,8 +20,18 @@
               </v-list-tile-content>
             </v-list-tile>
             <v-divider></v-divider>
-            <v-subheader v-if="projectData.members">Project Members</v-subheader>
+            <v-subheader v-if="projectData.members || projectData.xmembers">Project Members</v-subheader>
             <person-list v-if="projectData.members" :ids="projectData.members"></person-list>
+            <v-list-tile v-if="projectData.xmembers">
+              <v-list-tile-action>
+                <v-icon color="blue">person</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>{{ projectData.xmembers }}</v-list-tile-title>
+                <v-list-tile-sub-title></v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+
           </v-list>
           
           
@@ -61,7 +71,6 @@ export default {
       .then((doc) => {
         if(doc.exists){
           this.projectData = doc.data();
-          console.log(JSON.stringify(this.projectData))
         }
         this.$store.commit('setLoading', false)
       })

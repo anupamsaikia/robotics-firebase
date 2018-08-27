@@ -67,12 +67,20 @@ export default new Router({
       component: () => import('./views/Gallery.vue'),
       meta: { title: 'Gallery' }
     },
+    {
+      path: '/feedback',
+      name: 'feedback',
+      component: () => import('./views/Feedback.vue'),
+      meta: { title: 'Feedback' }
+    },
+
     
-  /*   {
-      path: '/xyz',
-      name: 'xyz',
-      component: () => import('./views/AdminPhotoUploader.vue')
-    }  */
+   {
+      path: '*',
+      name: 'notfound',
+      component: () => import('./views/Notfound.vue'),
+      meta: { title: '404 - Page not found' }
+    } 
     
 
   ]

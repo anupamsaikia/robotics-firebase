@@ -70,21 +70,21 @@
           column
           justify-center
         >
-          <!-- Mobile -->
+          <!-- Desktop -->
           <v-layout class="mt-5 pt-4" v-if="$vuetify.breakpoint.mdAndUp">
             <v-flex class="mx-4">
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="https://facebook.com/themoderngeeks">
-                <img src="../assets/f.png" alt="">
+              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="https://facebook.com/themoderngeeks" target="_blank">
+                <img src="../assets/f.png" alt="facebook" width="140" height="140">
               </v-btn>
             </v-flex>
             <v-flex class="mx-4">
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="https://youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g">
-                <img src="../assets/y.png" alt="">
+              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="https://youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g" target="_blank">
+                <img src="../assets/y.png" alt="youtube" width="140" height="140">
               </v-btn>
             </v-flex>
             <v-flex class="mx-4">
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="mailto:roboticscitk@email.com">
-                <img src="../assets/m.png" alt="">
+              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="mailto:roboticscitk@gmail.com" target="_blank">
+                <img src="../assets/m.png" alt="email" width="140" height="140">
               </v-btn>
             </v-flex>
           </v-layout>
@@ -109,8 +109,8 @@
 
           <v-layout>
             <v-flex>
-              <v-btn style="border:solid 6px #ffffff; width:300px;height:120px" round large outline to="join">
-                <span class="headline white--text" style="font-weight:800">Join Us</span>
+              <v-btn style="border:solid 4px #ffffff; width:300px;height:120px" round large outline to="join">
+                <span class="white--text" style="font-weight:800;font-size:40px;">Join Us</span>
               </v-btn>
             </v-flex>
           </v-layout>
@@ -247,6 +247,7 @@ export default {
   flex-direction: column;
 }
 .text {
+  font-weight: 200;
   text-align: center;
   color: #ffffff;
   text-shadow: 3px 3px 2px rgb(0, 0, 0);

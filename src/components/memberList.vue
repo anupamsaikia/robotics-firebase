@@ -90,11 +90,29 @@ export default {
           this.$store.commit('setLoading', false)
           console.log("Error getting documents: ", error);
         });
-      } else {
-        var level = (this.mtype == 'faculty')?3:4;
+      } else if(this.mtype == 'faculty') {
         db.collection("members")
         .where("visibility", "==", "public")
-        .where("level","==",level)
+        .where("level","<=",3)
+        .orderBy("level", "desc")
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.members.push({...doc.data(), ...{'id' : doc.id} })
+          });
+          if(this.members.length == 0){
+            this.message = "No member available"
+          }
+          this.$store.commit('setLoading', false)
+        })
+        .catch((error) => {
+          this.$store.commit('setLoading', false)
+          console.log("Error getting documents: ", error);
+        });
+      } else {
+        db.collection("members")
+        .where("visibility", "==", "public")
+        .where("level","==",4)
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
