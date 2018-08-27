@@ -8,28 +8,23 @@
           <v-card-text  class="subheading">{{ projectData.description }}</v-card-text>
           <v-divider></v-divider>
 
-          <v-list>
+          <v-list two-line subheader>
+            <v-subheader>Project details</v-subheader>
             <v-list-tile v-if="projectData.status">
               <v-list-tile-action>
-                <v-icon color="indigo">check_circle</v-icon>
+                <v-icon color="green">check_circle</v-icon>
               </v-list-tile-action>
               <v-list-tile-content>
                 <v-list-tile-title>Status</v-list-tile-title>
                 <v-list-tile-sub-title>{{ projectData.status }}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-
-            <v-list-tile v-if="projectData.x-members">
-              <v-list-tile-action>
-                <v-icon color="indigo">person</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>Members</v-list-tile-title>
-                <v-list-tile-sub-title>{{ projectData.x-members}}</v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-
+            <v-divider></v-divider>
+            <v-subheader v-if="projectData.members">Project Members</v-subheader>
+            <person-list v-if="projectData.members" :ids="projectData.members"></person-list>
           </v-list>
+          
+          
           
         </v-card>
       </v-flex>
@@ -39,13 +34,16 @@
 </template>
 
 <script>
-
+import personList from '../components/PersonList'
 import firebase from 'firebase/app'
 const db = firebase.firestore()
 const settings = {timestampsInSnapshots: true};
 db.settings(settings);
 
 export default {
+  components:{
+    personList
+  },
   data: () => ({
     projectData: [],
   }),
@@ -63,6 +61,7 @@ export default {
       .then((doc) => {
         if(doc.exists){
           this.projectData = doc.data();
+          console.log(JSON.stringify(this.projectData))
         }
         this.$store.commit('setLoading', false)
       })
