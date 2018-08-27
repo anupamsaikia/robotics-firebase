@@ -20,7 +20,7 @@
     ></v-carousel-item>
   </v-carousel> -->
 
-  <v-layout row class="my-3">
+  <v-layout row >
     <v-flex xs12 sm10 offset-sm1>
       <v-parallax
         dark
@@ -70,26 +70,46 @@
           column
           justify-center
         >
-          <v-layout class="mt-5 pt-4">
-            <v-flex>
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" large outline href="https://facebook.com/themoderngeeks">
+          <!-- Mobile -->
+          <v-layout class="mt-5 pt-4" v-if="$vuetify.breakpoint.mdAndUp">
+            <v-flex class="mx-4">
+              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="https://facebook.com/themoderngeeks">
                 <img src="../assets/f.png" alt="">
               </v-btn>
             </v-flex>
-            <v-flex>
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" large outline href="https://youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g">
+            <v-flex class="mx-4">
+              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="https://youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g">
                 <img src="../assets/y.png" alt="">
               </v-btn>
             </v-flex>
-            <v-flex>
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" large outline href="mailto:roboticscitk@email.com">
+            <v-flex class="mx-4">
+              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="mailto:roboticscitk@email.com">
                 <img src="../assets/m.png" alt="">
               </v-btn>
             </v-flex>
           </v-layout>
+          <!-- Mobile -->
+          <v-layout class="mt-5 pt-4" v-if="$vuetify.breakpoint.smAndDown">
+            <v-flex>
+              <v-btn style="border:solid 4px #ffffff; width:110px;height:110px;" round large outline href="https://facebook.com/themoderngeeks">
+                <img src="../assets/f.png" height="90px" width="90">
+              </v-btn>
+            </v-flex>
+            <v-flex>
+              <v-btn style="border:solid 4px #ffffff; width:110px;height:110px" round large outline href="https://youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g">
+                <img src="../assets/y.png" height="90px" width="90">
+              </v-btn>
+            </v-flex>
+            <v-flex>
+              <v-btn style="border:solid 4px #ffffff; width:110px;height:110px" round large outline href="mailto:roboticscitk@email.com">
+                <img src="../assets/m.png" height="90px" width="90">
+              </v-btn>
+            </v-flex>
+          </v-layout>
+
           <v-layout>
             <v-flex>
-              <v-btn style="border:solid 6px #ffffff; width:300px;height:120px" large outline to="join">
+              <v-btn style="border:solid 6px #ffffff; width:300px;height:120px" round large outline to="join">
                 <span class="headline white--text" style="font-weight:800">Join Us</span>
               </v-btn>
             </v-flex>
