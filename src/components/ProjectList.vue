@@ -55,6 +55,7 @@ export default {
   methods: {
 
     getData(){
+      this.$store.commit('setLoading', true)
       this.projects = []
 
       db.collection("projects")
@@ -67,10 +68,12 @@ export default {
           });
           if(this.projects.length == 0){
             this.message = "No project available"
-          }          
+          }
+          this.$store.commit('setLoading', false)     
         })
         .catch((error) => {
-            console.log("Error getting documents: ", error);
+          this.$store.commit('setLoading', false)
+          console.log("Error getting documents: ", error);
         });
 
     },

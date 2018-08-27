@@ -69,7 +69,7 @@ export default {
     ]), */
 
     getData(){
-      //this.loading('start')
+      this.$store.commit('setLoading', true)
 
       if(this.mtype == "core_member"){
         db.collection("members")
@@ -84,9 +84,11 @@ export default {
           if(this.members.length == 0){
             this.message = "No member available"
           }
+          this.$store.commit('setLoading', false)
         })
         .catch((error) => {
-            console.log("Error getting documents: ", error);
+          this.$store.commit('setLoading', false)
+          console.log("Error getting documents: ", error);
         });
       } else {
         var level = (this.mtype == 'faculty')?3:4;
@@ -101,12 +103,13 @@ export default {
           if(this.members.length == 0){
             this.message = "No member available"
           }
+          this.$store.commit('setLoading', false)
         })
         .catch((error) => {
-            console.log("Error getting documents: ", error);
+          this.$store.commit('setLoading', false)
+          console.log("Error getting documents: ", error);
         });
       }
-
 
       
     },

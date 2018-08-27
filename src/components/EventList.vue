@@ -90,6 +90,8 @@ export default {
         order = 'desc'
       }
 
+      this.$store.commit('setLoading', true)
+
       db.collection("events")
         .where("visibility", "==", "public")
         .where("eventTime",sign,new Date())
@@ -100,12 +102,14 @@ export default {
             let time = doc.data().eventTime.toDate()
             this.events.push({...doc.data(), ...{'id' : doc.id, 'time' : time} })
           });
+          this.$store.commit('setLoading', false)
           if(this.events.length == 0){
             this.message = "No event available"
           }          
         })
         .catch((error) => {
-            console.log("Error getting documents: ", error);
+          this.$store.commit('setLoading', false)
+          console.log("Error getting documents: ", error);
         });
 
     },

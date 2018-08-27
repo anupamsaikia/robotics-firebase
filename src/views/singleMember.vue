@@ -115,19 +115,22 @@ export default {
 
   methods: {
     getData(){
+      this.$store.commit('setLoading', true)
       this.error = null
 
-        db.collection("members")
-        .doc(this.$route.params.id)
-        .get()
-        .then((doc) => {
-          if(doc.exists){
-            this.personData = doc.data();
-          }
-        })
-        .catch((error) => {
-            console.log("Error getting documents: ", error);
-        });
+      db.collection("members")
+      .doc(this.$route.params.id)
+      .get()
+      .then((doc) => {
+        if(doc.exists){
+          this.personData = doc.data();
+        }
+        this.$store.commit('setLoading', false)
+      })
+      .catch((error) => {
+        this.$store.commit('setLoading', false)
+        console.log("Error getting documents: ", error);
+      });
       
     },
 

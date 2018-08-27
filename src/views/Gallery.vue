@@ -39,18 +39,21 @@ export default {
 
   methods:{
     getData(){
+      this.$store.commit('setLoading', true)
       db.collection("gallery-photos")
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
             this.items.push(doc.data())
           });
+          this.$store.commit('setLoading', false)
           if(this.items.length==0){
             this.msg = 'No photo available right now..'
           }
         })
         .catch((error) => {
             console.log("Error getting photos: ", error);
+            this.$store.commit('setLoading', false)
         });
 
     }

@@ -67,6 +67,7 @@ export default {
 
   methods:{
     getData(){
+      this.$store.commit('setLoading', true)
       db.collection("events")
       .doc(this.$route.params.id)
       .get()
@@ -75,9 +76,11 @@ export default {
           this.eventData = doc.data();
           this.eventData.time = doc.data().eventTime.toDate()
         }
+        this.$store.commit('setLoading', false)
       })
       .catch((error) => {
-          console.log("Error getting documents: ", error);
+        this.$store.commit('setLoading', false)
+        console.log("Error getting documents: ", error);
       })
     },
 

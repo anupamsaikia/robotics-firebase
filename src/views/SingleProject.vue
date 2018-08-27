@@ -56,6 +56,7 @@ export default {
 
   methods:{
     getData(){
+      this.$store.commit('setLoading', true)
       db.collection("projects")
       .doc(this.$route.params.id)
       .get()
@@ -63,9 +64,11 @@ export default {
         if(doc.exists){
           this.projectData = doc.data();
         }
+        this.$store.commit('setLoading', false)
       })
       .catch((error) => {
-          console.log("Error getting documents: ", error);
+        this.$store.commit('setLoading', false)
+        console.log("Error getting documents: ", error);
       })
     },
 
