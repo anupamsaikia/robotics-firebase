@@ -9,10 +9,12 @@ export default new Vuex.Store({
     getUser: (state) => { return state.currentUser; }
   },
   state: {
-    currentUser : null
+    currentUser : null,
+    loading: false
   },
   mutations: {
-    setCurrentUser: state => { state.currentUser = Firebase.auth().currentUser; }
+    setCurrentUser: state => { state.currentUser = Firebase.auth().currentUser; },
+    setLoading: (state, data) => { state.loading = data; }
   },
   actions: {
     setUser: context => { context.commit('setCurrentUser'); }

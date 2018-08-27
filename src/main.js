@@ -5,7 +5,7 @@ import router from './router'
 import store from './store'
 import './registerServiceWorker'
 import myError from './components/Error'
-
+import myLoader from './components/Loader'
 
 //croppa
 import Croppa from 'vue-croppa'
@@ -32,6 +32,7 @@ firebase.auth().onAuthStateChanged(()=> {
 
 //global components 
 Vue.component('my-error', myError)
+Vue.component('my-loader',  myLoader)
 Vue.config.productionTip = false
 
 new Vue({

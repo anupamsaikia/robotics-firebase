@@ -1,9 +1,8 @@
 <template>
   <v-app id="inspire">
-<!--     <my-loader v-show="loading" style="z-index:100"></my-loader>
- --> 
+    <my-loader v-show="$store.state.loading" style="z-index:100"></my-loader>
 
-<!-- nav for desktop  -->  
+    <!-- nav for desktop  -->  
     <v-navigation-drawer
       v-if="$vuetify.breakpoint.mdAndUp"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -47,7 +46,7 @@
       </v-list>
     </v-navigation-drawer>
 
-<!-- nav for mobile -->
+    <!-- nav for mobile -->
     <v-navigation-drawer
     width="200"
       v-if="$vuetify.breakpoint.smAndDown"
