@@ -16,17 +16,20 @@ export default new Router({
     {
       path: '/about',
       name: 'about',
-      component: () => import('./views/About.vue')
+      component: () => import('./views/About.vue'),
+      meta: { title: 'About' }
     },
     {
       path: '/join',
       name: 'join',
-      component: () => import('./views/Join.vue')
+      component: () => import('./views/Join.vue'),
+      meta: { title: 'Registration' }
     },
     {
       path: '/members',
       name: 'members',
-      component: () => import('./views/Members.vue')
+      component: () => import('./views/Members.vue'),
+      meta: { title: 'Members' }
     },
     {
       path: '/members/:id',
@@ -37,27 +40,32 @@ export default new Router({
     {
       path: '/events',
       name: 'events',
-      component: () => import('./views/Events.vue')
+      component: () => import('./views/Events.vue'),
+      meta: { title: 'Events' }
     },
     {
       path: '/events/:id',
       name: 'singleEvent',
-      component: () => import('./views/SingleEvent.vue')
+      component: () => import('./views/SingleEvent.vue'),
+      meta: { title: 'Events' }
     },
     {
       path: '/projects',
       name: 'projects',
-      component: () => import('./views/Projects.vue')
+      component: () => import('./views/Projects.vue'),
+      meta: { title: 'Projects' }
     },
     {
       path: '/projects/:id',
       name: 'singleProject',
-      component: () => import('./views/SingleProject.vue')
+      component: () => import('./views/SingleProject.vue'),
+      meta: { title: 'Projects' }
     },
     {
       path: '/gallery',
       name: 'gallery',
-      component: () => import('./views/Gallery.vue')
+      component: () => import('./views/Gallery.vue'),
+      meta: { title: 'Gallery' }
     },
     
   /*   {

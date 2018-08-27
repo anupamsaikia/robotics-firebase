@@ -29,6 +29,17 @@ firebase.auth().onAuthStateChanged(()=> {
   store.dispatch('setUser')
 });
 
+//check route meta to set title
+router.beforeEach((to, from, next) => {
+  if(to.meta.title){
+    document.title = to.meta.title + ' | Robotics Club CITK'
+  }
+  else{
+    document.title = 'Robotics Club CIT Kokrajhar'
+  }
+  next()
+})
+
 
 //global components 
 Vue.component('my-error', myError)
