@@ -1,7 +1,56 @@
 <template>
   <v-app id="inspire">
 <!--     <my-loader v-show="loading" style="z-index:100"></my-loader>
- -->    <v-navigation-drawer
+ --> 
+
+<!-- nav for desktop  -->  
+    <v-navigation-drawer
+      v-if="$vuetify.breakpoint.mdAndUp"
+      :clipped="$vuetify.breakpoint.lgAndUp"
+      v-model="drawer"
+      fixed
+      app
+      mini-variant
+    >
+      <v-list dense>
+        <template v-for="item in items">
+          <v-layout
+            v-if="item.heading"
+            :key="item.heading"
+            row
+            align-center
+          >
+            <v-flex xs6>
+              <v-subheader v-if="item.heading">
+                {{ item.heading }}
+              </v-subheader>
+            </v-flex>
+            <v-flex xs6 class="text-xs-center">
+              <a href="#!" class="body-2 black--text">EDIT</a>
+            </v-flex>
+          </v-layout>
+
+          <v-tooltip right min-width="50" :key="item.text" v-else>
+            <v-list-tile slot="activator" :key="item.text" :to="'/'+item.target">
+              <v-list-tile-action>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ item.text }}
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <span>{{item.text}}</span>
+          </v-tooltip>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+
+<!-- nav for mobile -->
+    <v-navigation-drawer
+    width="200"
+      v-if="$vuetify.breakpoint.smAndDown"
       :clipped="$vuetify.breakpoint.lgAndUp"
       v-model="drawer"
       fixed
@@ -24,7 +73,6 @@
               <a href="#!" class="body-2 black--text">EDIT</a>
             </v-flex>
           </v-layout>
-
           <v-list-tile v-else :key="item.text" :to="'/'+item.target">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -35,22 +83,22 @@
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
-
-
         </template>
       </v-list>
     </v-navigation-drawer>
+
     <v-toolbar
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       app
       fixed
-      :dense="$vuetify.breakpoint.mdAndDown"
     >
       <v-toolbar-title style="width: 300px" class="">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <span class="">{{ title }}</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <img src="./assets/club-logo.png" width="100" alt="">
+      </v-toolbar-items>
       <v-menu
         left
         nudge-left="40"
