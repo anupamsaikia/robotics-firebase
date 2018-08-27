@@ -24,7 +24,7 @@
     <v-flex xs12 sm10 offset-sm1>
       <v-parallax
         dark
-        src="http://singtel.co.jp/wp/wp-content/uploads/20180202.jpg"
+        src="https://firebasestorage.googleapis.com/v0/b/robotics-club-cit.appspot.com/o/banners%2Fbanner.jpg?alt=media&token=9c4dbff5-ceea-42df-842a-99558fcda070"
       >
         <v-layout
           align-center
