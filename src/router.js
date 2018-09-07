@@ -76,7 +76,7 @@ export default new Router({
 
     
    {
-      path: '*',
+      path: '**',
       name: 'notfound',
       component: () => import('./views/Notfound.vue'),
       meta: { title: '404 - Page not found' }
