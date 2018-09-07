@@ -1,0 +1,17 @@
+language: node_js
+
+node_js:
+  - "stable"
+
+install:
+  - npm ci
+
+script:
+  - npm run build
+
+deploy:
+  skip_cleanup: true
+  provider: firebase
+  token:
+    secure: $FIREBASE_TOKEN
+  project: "robotics-club-cit"
