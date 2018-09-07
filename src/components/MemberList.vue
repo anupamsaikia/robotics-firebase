@@ -128,16 +128,9 @@ export default {
           console.log("Error getting documents: ", error);
         });
       }
-
       
     },
-
-
-
-
   },
-
-
 
 
 }
