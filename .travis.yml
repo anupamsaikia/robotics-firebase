@@ -9,7 +9,7 @@ node_js:
   - "stable"
 
 install:
-  - npm ci
+  - npm install
 
 script:
   - npm run build
