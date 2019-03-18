@@ -6,10 +6,10 @@ branches:
 language: node_js
 
 node_js:
-  - "stable"
+  - "10"
 
 install:
-  - npm install
+  - npm ci
 
 script:
   - npm run build
