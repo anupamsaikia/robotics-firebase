@@ -27,6 +27,7 @@
         </v-card-actions>
       </v-card>
     </v-flex>
+    <p>Your feedback is very valuable to us</p>
   </v-layout>
 </template>
 
