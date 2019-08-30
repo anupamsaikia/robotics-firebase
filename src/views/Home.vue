@@ -10,7 +10,17 @@
         </v-card-title>
         
         <v-card-text class="headline px-5">
-          Please delete your brouser site data and cache to access the new site.
+          Please delete your browser site data and cache to access the new site.
+	  <br>
+	  If it doesnot work after that then try this methods:
+	  <br>
+	  In Google Chrome, you can go to Developer tools (F12) -> Application -> Clear storage and click Clear site data
+	  <img src="https://i.stack.imgur.com/IueOe.png">
+	  
+	  <br>
+	  <br>
+	  
+	  
         </v-card-text>
       </v-card>
     </v-flex>
