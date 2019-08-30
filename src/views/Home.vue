@@ -15,7 +15,7 @@
 	  If it doesnot work after that then try this methods:
 	  <br>
 	  In Google Chrome, you can go to Developer tools (F12) -> Application -> Clear storage and click Clear site data
-	  <img src="https://i.stack.imgur.com/IueOe.png">
+	  <img src="https://i.stack.imgur.com/IueOe.png" width=100%>
 	  
 	  <br>
 	  <br>
