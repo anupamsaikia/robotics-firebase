@@ -1,134 +1,20 @@
 <template>
 <div class="main">
 
-  <!-- <v-layout class="pa-2 ">
-    <div width="50"><img src="../assets/club-logo.png" alt="Logo" height="80"></div>
-    <v-spacer></v-spacer>
-    <div width="50"><img src="../assets/cit-logo.png" alt="Logo" height="80"></div>
-  </v-layout> -->
-
-  <!-- <v-carousel
-    hide-delimiters
-    hide-controls
-  >
-    <v-carousel-item
-      v-for="(item,i) in images"
-      :key="i"
-      :src="item.src"
-      reverse-transition="fade"
-      transition="fade"
-    ></v-carousel-item>
-  </v-carousel> -->
-
-  <v-layout row >
-    <v-flex xs12 sm10 offset-sm1>
-      <v-parallax
-        dark
-        src="https://firebasestorage.googleapis.com/v0/b/robotics-club-cit.appspot.com/o/banners%2Fbanner.jpg?alt=media&token=9c4dbff5-ceea-42df-842a-99558fcda070"
-      >
-        <v-layout
-          align-center
-          column
-          justify-center
-        >
-          <div class="container display-2 font-weight-thin">
-            <div class="text"></div>
-          </div>
-        </v-layout>
-      </v-parallax>
-    </v-flex>
-  </v-layout>
 
   <v-layout row class="my-3">
     <v-flex xs12 sm10 offset-sm1>
       <v-card color="transparent" flat>
         <v-card-title class="headline px-5">
-          About Us
+          We have updated our website. You are seeing this old page because, the old cache and site data are still stored in your browser.
         </v-card-title>
-        <v-card-text style="text-align: justify; text-justify: inter-word;">
-          Since the first appearance of a robot in a movie in 1927, robots have intrigued us through innumerable appearance in fictional stories in the media, be it the print or the film or a fully functional robot, like Sophia. Robotics is the branch of technology that deals with the design, construction, operation, structure disposition, manufacture and their application. The Robotics club of CIT Kokrajhar since its inception in August 2016 by three students from the department of ECE, working in their labs to build their robots. It has now come a long way of its development after its official launch in 15th August 2017, the club is now managed by core team members under the guidance of highly dedicated faculty in-charges and has more than 100 student members from all departments working together in a dedicated workspace provided by the Institute.
-        </v-card-text>
-        <v-card-text style="text-align: justify; text-justify: inter-word;">
-          The club has always tried its best to stimulate interest in robotics among the students of the Institute. With the enthusiasm of its member and the support of the Institute, the club aims to reach each and every student of the institute and flourish into a fully functional lab with the proper infrastructure in the years to come, where the students can harness their creativity and improve their soft skills too. 
-        </v-card-text>
-        <v-card-text style="text-align: justify; text-justify: inter-word;">
-          Club has recently started its “RENDEZVOUS” series which aims to frequently organize some interaction sessions with the faculties and industry experts. This will certainly help students to learn a lot from the knowledge and experience of the professors and experts, which can enlighten the student and help them select a right path to build a successful career. The Club also plans to have industrial tie-ups to help students get more thorough and practical knowledge and get industrial projects that will help students to apply their knowledge. Work on many good projects like under water surveillance system, drone technology, facial recognition etc. has already being started in the club at a preliminary level and we look forward to bringing them to life.
+        
+        <v-card-text class="headline px-5">
+          Please delete your brouser site data and cache to access the new site.
         </v-card-text>
       </v-card>
     </v-flex>
   </v-layout>
-
-
-  <v-layout row class="my-3">
-    <v-flex xs12 sm10 offset-sm1>
-      <v-parallax
-        dark
-        src="https://firebasestorage.googleapis.com/v0/b/robotics-club-cit.appspot.com/o/banners%2Fnewbg.jpg?alt=media&token=52d332a1-13bc-4bc8-9cf8-8588bf8658fe"
-      >
-        <v-layout
-          align-center
-          column
-          justify-center
-        >
-          <!-- Desktop -->
-          <v-layout class="mt-5 pt-4" v-if="$vuetify.breakpoint.mdAndUp">
-            <v-flex class="mx-4">
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="https://facebook.com/themoderngeeks" target="_blank">
-                <img src="../assets/f.png" alt="facebook" width="140" height="140">
-              </v-btn>
-            </v-flex>
-            <v-flex class="mx-4">
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="https://youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g" target="_blank">
-                <img src="../assets/y.png" alt="youtube" width="140" height="140">
-              </v-btn>
-            </v-flex>
-            <v-flex class="mx-4">
-              <v-btn style="border:solid 6px #ffffff; width:160px;height:160px" round large outline href="mailto:roboticscitk@gmail.com" target="_blank">
-                <img src="../assets/m.png" alt="email" width="140" height="140">
-              </v-btn>
-            </v-flex>
-          </v-layout>
-          <!-- Mobile -->
-          <v-layout class="mt-5 pt-4" v-if="$vuetify.breakpoint.smAndDown">
-            <v-flex>
-              <v-btn style="border:solid 4px #ffffff; width:110px;height:110px;" round large outline href="https://facebook.com/themoderngeeks">
-                <img src="../assets/f.png" height="90px" width="90">
-              </v-btn>
-            </v-flex>
-            <v-flex>
-              <v-btn style="border:solid 4px #ffffff; width:110px;height:110px" round large outline href="https://youtube.com/channel/UCo7ZitSCcgWNEsQVVzBx41g">
-                <img src="../assets/y.png" height="90px" width="90">
-              </v-btn>
-            </v-flex>
-            <v-flex>
-              <v-btn style="border:solid 4px #ffffff; width:110px;height:110px" round large outline href="mailto:roboticscitk@email.com">
-                <img src="../assets/m.png" height="90px" width="90">
-              </v-btn>
-            </v-flex>
-          </v-layout>
-
-          <v-layout>
-            <v-flex>
-              <v-btn style="border:solid 4px #ffffff; width:300px;height:120px" round large outline to="join">
-                <span class="white--text" style="font-weight:800;font-size:40px;">Join Us</span>
-              </v-btn>
-            </v-flex>
-          </v-layout>
-        </v-layout>
-      </v-parallax>
-    </v-flex>
-  </v-layout>
-
-
-
-
-
-  
-
-
-  
-
-
 
 
 
