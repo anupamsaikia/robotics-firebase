@@ -1,6 +1,6 @@
-# robotics-fb
+### Code for previous website of Robotics club CIT Kokrajhar
 
-## Project setup
+### Project setup
 ```
 npm install
 ```
